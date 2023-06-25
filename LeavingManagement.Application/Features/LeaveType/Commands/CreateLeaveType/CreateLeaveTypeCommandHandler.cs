@@ -24,7 +24,7 @@ namespace LeavingManagement.Application.Features.LeaveType.Commands.CreateLeaveT
         {
             // 1- Validate incomming data
             var validator = new CreateLeaveTypeCommandValidator(_leaveTypeRepository);
-            var validationResult = await validator.ValidateAsync(request);
+            var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
             if (!validationResult.IsValid)
             {
