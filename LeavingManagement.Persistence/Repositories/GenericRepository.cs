@@ -1,4 +1,5 @@
 ﻿using LeavingManagement.Application.Contracts.Persistence;
+using LeavingManagement.Domain.Common;
 using LeavingManagement.Persistence.DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace LeavingManagement.Persistence.Repositories
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : class
+    public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
         protected readonly LeavingManagementDatabaseContext _context;
 
@@ -32,12 +33,14 @@ namespace LeavingManagement.Persistence.Repositories
 
         public async Task<IReadOnlyList<T>> GetAllAsync()
         {
-            return await _context.Set<T>().ToListAsync();
+            return await _context.Set<T>().AsNoTracking().ToListAsync();
         }
 
         public async Task<T> GetByIdAsync(int id)
         {
-            return await _context.Set<T>().FindAsync(id);
+            return await _context.Set<T>()
+                .AsNoTracking()
+                .FirstOrDefaultAsync(q => q.Id == id);
         }
 
         public async Task UpdateAsync(T entity)
