@@ -1,4 +1,6 @@
-﻿using LeavingManagement.Persistence.DatabaseContext;
+﻿using LeavingManagement.Application.Contracts.Persistence;
+using LeavingManagement.Persistence.DatabaseContext;
+using LeavingManagement.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,6 +20,8 @@ namespace LeavingManagement.Persistence
             {
                 options.UseSqlServer(configuration.GetConnectionString("LeavingManagementDatabaseConnectionString"));
             });
+
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
             return services;
         }
