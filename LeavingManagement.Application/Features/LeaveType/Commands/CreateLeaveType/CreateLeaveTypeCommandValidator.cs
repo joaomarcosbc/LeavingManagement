@@ -1,10 +1,5 @@
 ﻿using FluentValidation;
 using LeavingManagement.Application.Contracts.Persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LeavingManagement.Application.Features.LeaveType.Commands.CreateLeaveType;
 

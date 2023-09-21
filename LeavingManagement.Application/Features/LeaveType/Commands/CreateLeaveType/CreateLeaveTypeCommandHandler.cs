@@ -2,11 +2,6 @@
 using LeavingManagement.Application.Contracts.Persistence;
 using LeavingManagement.Application.Exceptions;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LeavingManagement.Application.Features.LeaveType.Commands.CreateLeaveType
 {
