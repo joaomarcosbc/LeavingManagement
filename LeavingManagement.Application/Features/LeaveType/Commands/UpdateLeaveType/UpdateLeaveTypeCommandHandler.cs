@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LeavingManagement.Application.Logging;
 
 namespace LeavingManagement.Application.Features.LeaveType.Commands.UpdateLeaveType
 {
@@ -15,11 +16,16 @@ namespace LeavingManagement.Application.Features.LeaveType.Commands.UpdateLeaveT
     {
         private readonly IMapper _mapper;
         private readonly ILeaveTypeRepository _leaveTypeRepository;
+        private IAppLogger<UpdateLeaveTypeCommandHandler> _logger;
 
-        public UpdateLeaveTypeCommandHandler(IMapper mapper, ILeaveTypeRepository leaveTypeRepository)
+        public UpdateLeaveTypeCommandHandler(
+            IMapper mapper,
+            ILeaveTypeRepository leaveTypeRepository,
+            IAppLogger<UpdateLeaveTypeCommandHandler> logger)
         {
             _mapper = mapper;
             _leaveTypeRepository = leaveTypeRepository;
+            _logger = logger;
         }
         public async Task<Unit> Handle(UpdateLeaveTypeCommand request, CancellationToken cancellationToken)
         {
@@ -29,6 +35,8 @@ namespace LeavingManagement.Application.Features.LeaveType.Commands.UpdateLeaveT
 
             if (!validationResult.IsValid)
             {
+                _logger.LogWarning("Validation errors in update request for {0} - {1}", nameof
+                    (LeaveType), request.Id);
                 throw new BadRequestException("Invalid LeaveType", validationResult);
             }
 

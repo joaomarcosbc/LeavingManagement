@@ -18,4 +18,5 @@
     <ProjectReference Include="..\LeavingManagement.Domain\LeavingManagement.Domain.csproj" />
   </ItemGroup>
 
+
 </Project>

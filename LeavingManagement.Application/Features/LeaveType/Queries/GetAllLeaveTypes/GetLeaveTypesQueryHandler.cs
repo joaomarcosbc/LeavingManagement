@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LeavingManagement.Application.Logging;
 
 namespace LeavingManagement.Application.Features.LeaveType.Queries.GetAllLeaveTypes
 {
@@ -13,15 +14,19 @@ namespace LeavingManagement.Application.Features.LeaveType.Queries.GetAllLeaveTy
     {
         private readonly IMapper _mapper;
         private readonly ILeaveTypeRepository _leaveTypeRepository;
+        private readonly IAppLogger<GetLeaveTypesQueryHandler> _logger; 
 
-        public GetLeaveTypesQueryHandler(IMapper mapper, ILeaveTypeRepository leaveTypeRepository)
+        public GetLeaveTypesQueryHandler(
+            IMapper mapper,
+            ILeaveTypeRepository leaveTypeRepository,
+            IAppLogger<GetLeaveTypesQueryHandler> logger)
         {
             _mapper = mapper;
             _leaveTypeRepository = leaveTypeRepository;
+            _logger = logger;
         }
         public async Task<List<LeaveTypeDTO>> Handle(GetLeaveTypesQuery request, CancellationToken cancellationToken)
         {
-
             // 1- Query the database
             var leaveTypes = await _leaveTypeRepository.GetAllAsync();
 
@@ -29,6 +34,7 @@ namespace LeavingManagement.Application.Features.LeaveType.Queries.GetAllLeaveTy
             var data = _mapper.Map<List<LeaveTypeDTO>>(leaveTypes);
 
             // 3- Return lis of DTO objects
+            _logger.LogInformation("Leave types were retrieved successfully.");
             return data;
         }
     }
